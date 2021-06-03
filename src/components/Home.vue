@@ -111,7 +111,7 @@
         :hide-footer="true"
       >
         <div style="text-align:center ; cursor:pointer ; height:250px">
-          <img style="height:150px" alt="Vue logo" src="@/assets/pdf.png" />
+          <img style="height:150px" alt="Vue pdf" src="@/assets/pdf.png" />
         </div>
         <div style="float:right">
           <b-btn @click="editResume">
@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       dropOptions: {
-        url: "https://httpbin.org/post",
+        url: "https://httpbin.org/post", // sample URL
         maxFilesize: 2, // MB
         maxFiles: 4,
         chunking: true,
@@ -145,16 +145,17 @@ export default {
         thumbnailWidth: 150, // px
         thumbnailHeight: 150,
         addRemoveLinks: true,
-        acceptedFiles: "image/png,image/jpeg,application/pdf",
+        acceptedFiles: "image/png,image/jpeg,application/pdf", // files that can be added
       },
-      input: "",
-      input1: "",
     };
   },
   methods: {
+    
+    // alert function 
     removeAllFiles() {
       this.$alert("File added successfully");
     },
+    // alert function
     editResume() {
       this.$alert("Cannot edit file at the moment");
     },
@@ -162,7 +163,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
