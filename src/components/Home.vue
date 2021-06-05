@@ -6,7 +6,12 @@
           Resume Management Tool
         </div>
       </b-row>
-      <b-row>
+      <b-row class="mt-2">
+        <b-col lg="12">
+          <Search />
+        </b-col>
+      </b-row>
+      <b-row class="mt-2">
         <b-col>
           <hr class="new5" />
         </b-col>
@@ -126,6 +131,42 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+import Search from "@/components/Search";
+
+async function search(query, filters) {
+  if (!filters) {
+    filters = [];
+  }
+
+  // URL for solr connection
+
+  const url = new URL(
+    `http://localhost:8983/solr/Solr_resume_data/select?q=11`
+  );
+  filters.forEach((filter) => {
+    url.searchParams.append(filter.param, filter.selected.join(","));
+  });
+  // adding cors response
+  let response = await fetch(url, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  });
+
+  if (response && response.ok) {
+    const { data } = await response.json();
+    return {
+      data,
+    };
+  }
+
+  return {
+    data: null,
+  };
+}
 export default {
   name: "HelloWorld",
   props: {
@@ -133,6 +174,7 @@ export default {
   },
   components: {
     vueDropzone: vue2Dropzone,
+    Search,
   },
   data() {
     return {
@@ -149,9 +191,12 @@ export default {
       },
     };
   },
+  async mounted() {
+    const { data } = await search(this.query);
+    this.values = data;
+  },
   methods: {
-    
-    // alert function 
+    // alert function
     removeAllFiles() {
       this.$alert("File added successfully");
     },
